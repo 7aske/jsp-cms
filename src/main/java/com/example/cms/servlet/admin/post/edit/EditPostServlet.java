@@ -1,9 +1,9 @@
 package com.example.cms.servlet.admin.post.edit;
 
 import com.example.cms.config.Config;
-import com.example.cms.database.dao.BlogPostDAO;
+import com.example.cms.database.dao.PostDAO;
 import com.example.cms.database.dao.TagDAO;
-import com.example.cms.database.entity.BlogPost;
+import com.example.cms.database.entity.Post;
 import com.example.cms.database.entity.Tag;
 import com.example.cms.util.UrlUtil;
 
@@ -32,7 +32,7 @@ public class EditPostServlet extends HttpServlet {
 		long idBlogPost;
 		String title = request.getParameter("title");
 		String slug = request.getParameter("slug");
-		String preview = request.getParameter("preview");
+		String excerpt = request.getParameter("excerpt");
 		String body = request.getParameter("body");
 		boolean published = false;
 		if (request.getParameter("published") != null && request.getParameter("published").equals("on")) {
@@ -48,28 +48,29 @@ public class EditPostServlet extends HttpServlet {
 			}
 		}
 
-		BlogPostDAO blogPostDAO = new BlogPostDAO();
+		PostDAO blogPostDAO = new PostDAO();
 		try {
 			idBlogPost = Long.parseLong(idBlogPostString);
-			BlogPost blogPost = blogPostDAO.find(idBlogPost);
-			blogPost.setTitle(title);
-			blogPost.setSlug(slug);
-			blogPost.setBody(body);
-			blogPost.setPreview(preview);
-			blogPost.setPublished(published);
-			blogPost.setTags(tagList);
-			blogPostDAO.update(blogPost);
+			Post post = blogPostDAO.find(idBlogPost);
+			post.setTitle(title);
+			post.setSlug(slug);
+			post.setBody(body);
+			post.setExcerpt(excerpt);
+			post.setPublished(published);
+			post.setTags(tagList);
+			blogPostDAO.update(post);
 		} catch (NumberFormatException ex) {
-			BlogPost blogPost = new BlogPost();
-			blogPost.setTitle(title);
-			blogPost.setSlug(slug);
-			blogPost.setBody(body);
-			blogPost.setPreview(preview);
-			blogPost.setPublished(published);
-			blogPost.setDatePosted(LocalDate.now());
-			blogPost.setTags(tagList);
-			blogPost.setAuthor((String) Config.getProperties().get("author"));
-			blogPostDAO.create(blogPost);
+			Post post = new Post();
+			post.setTitle(title);
+			post.setSlug(slug);
+			post.setBody(body);
+			post.setExcerpt(excerpt);
+			post.setPublished(published);
+			post.setDatePosted(LocalDate.now());
+			post.setTags(tagList);
+			// FIXME
+			// post.setAuthor((String) Config.getProperties().get("author"));
+			blogPostDAO.create(post);
 		}
 		response.sendRedirect(request.getContextPath() + "/admin/admin.jsp");
 	}

@@ -1,6 +1,6 @@
 package com.example.cms.servlet.admin.post.delete;
 
-import com.example.cms.database.dao.BlogPostDAO;
+import com.example.cms.database.dao.PostDAO;
 import com.example.cms.util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ public class DeletePostServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idBlogPostString = UrlUtil.getUrlBase(request.getRequestURL().toString());
 		long idBlogPost;
-		BlogPostDAO blogPostDAO = new BlogPostDAO();
+		PostDAO blogPostDAO = new PostDAO();
 		System.out.println(idBlogPostString);
 		try {
 			idBlogPost = Long.parseLong(idBlogPostString);

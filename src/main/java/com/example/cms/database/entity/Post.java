@@ -6,15 +6,18 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "blog_post")
-public class BlogPost implements Serializable {
+@Table(name = "post")
+public class Post implements Serializable {
 	@Id
 	@GeneratedValue
-	@Column(name = "id_blog_post")
-	private Long idBlogPost;
+	@Column(name = "id_post")
+	private Long idPost;
 
 	@Column(name = "body")
 	private String body;
+
+	@Column(name = "excerpt")
+	private String excerpt;
 
 	@Column(name = "title")
 	private String title;
@@ -22,34 +25,48 @@ public class BlogPost implements Serializable {
 	@Column(name = "slug")
 	private String slug;
 
-	@Column(name = "published")
-	private boolean published;
-
 	@Column(name = "date_posted")
 	private LocalDate datePosted;
 
-	@Column(name = "author")
-	private String author;
+	@Column(name = "published")
+	private Boolean published;
 
-	@Column(name = "preview")
-	private String preview;
+	@JoinColumn(name = "id_user", referencedColumnName = "id_user")
+	@ManyToOne
+	private Author idUser;
 
 	@OneToMany
 	@JoinTable(name = "post_tag",
-			joinColumns = @JoinColumn(name = "id_blog_post"),
+			joinColumns = @JoinColumn(name = "id_post"),
 			inverseJoinColumns = @JoinColumn(name = "id_tag")
 	)
 	private Set<Tag> tags;
 
-	public BlogPost() {
+	public Post() {
 	}
 
-	public Long getIdBlogPost() {
-		return idBlogPost;
+	public Long getIdPost() {
+		return idPost;
 	}
 
-	public void setIdBlogPost(Long idBlogPost) {
-		this.idBlogPost = idBlogPost;
+	public void setIdPost(Long idPost) {
+		this.idPost = idPost;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getExcerpt() {
+		return excerpt;
+	}
+
+	public void setExcerpt(String excerpt) {
+		this.excerpt = excerpt;
 	}
 
 	public String getTitle() {
@@ -68,14 +85,6 @@ public class BlogPost implements Serializable {
 		this.slug = slug;
 	}
 
-	public String getBody() {
-		return body;
-	}
-
-	public void setBody(String body) {
-		this.body = body;
-	}
-
 	public LocalDate getDatePosted() {
 		return datePosted;
 	}
@@ -84,20 +93,20 @@ public class BlogPost implements Serializable {
 		this.datePosted = datePosted;
 	}
 
-	public String getAuthor() {
-		return author;
+	public Boolean getPublished() {
+		return published;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setPublished(Boolean published) {
+		this.published = published;
 	}
 
-	public String getPreview() {
-		return preview;
+	public Author getIdUser() {
+		return idUser;
 	}
 
-	public void setPreview(String preview) {
-		this.preview = preview;
+	public void setIdUser(Author idUser) {
+		this.idUser = idUser;
 	}
 
 	public Set<Tag> getTags() {
@@ -108,25 +117,17 @@ public class BlogPost implements Serializable {
 		this.tags = tags;
 	}
 
-	public boolean isPublished() {
-		return published;
-	}
-
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
-
 	@Override
 	public String toString() {
-		return "BlogPost{" +
-				"idBlogPost=" + idBlogPost +
+		return "Post{" +
+				"idPost=" + idPost +
 				", body='" + body + '\'' +
+				", excerpt='" + excerpt + '\'' +
 				", title='" + title + '\'' +
 				", slug='" + slug + '\'' +
-				", published=" + published +
 				", datePosted=" + datePosted +
-				", author='" + author + '\'' +
-				", preview='" + preview + '\'' +
+				", published=" + published +
+				", idUser=" + idUser +
 				", tags=" + tags +
 				'}';
 	}

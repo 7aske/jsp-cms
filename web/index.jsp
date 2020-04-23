@@ -1,5 +1,5 @@
-<%@ page import="com.example.cms.database.entity.BlogPost" %>
-<%@ page import="com.example.cms.database.dao.BlogPostDAO" %>
+<%@ page import="com.example.cms.database.entity.Post" %>
+<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -23,15 +23,15 @@
   </div>
 </div>
 <%
-  List<BlogPost> blogPosts = new BlogPostDAO().findAllPublished();
-  pageContext.setAttribute("blogPosts", blogPosts);
+  List<Post> posts = new PostDAO().findAllPublished();
+  pageContext.setAttribute("posts", posts);
 %>
 <div class="row">
-  <c:forEach items="${blogPosts}" var="post">
+  <c:forEach items="${posts}" var="post">
     <jsp:include page="fragment/indexPost.jsp">
       <jsp:param name="title" value="${post.title}"/>
-      <jsp:param name="preview" value="${post.preview}"/>
-      <jsp:param name="author" value="${post.author}"/>
+      <jsp:param name="excerpt" value="${post.excerpt}"/>
+      <jsp:param name="idUser" value="${post.idUser.idUser}"/>
       <jsp:param name="slug" value="${post.slug}"/>
       <jsp:param name="datePosted" value="${post.datePosted}"/>
       <jsp:param name="tags" value="${post.tags.stream().map(t -> t.name).reduce((l, r) -> l += ',' += r).orElse('')}"/>
