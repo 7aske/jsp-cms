@@ -1,3 +1,5 @@
+<%@ page import="com.example.cms.database.dao.UserDAO" %>
+<%@ page import="com.example.cms.database.RoleNames" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,34 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>Blog - Admin Login</title>
     <jsp:include page="../include/head.jsp"/>
-    <style>
-        /*#ff9800*/
-        /*#29b6f6*/
-        input:focus.validate {
-            border-bottom-color: #ff9800 !important;
-            box-shadow: 0 1px 0 0 #ff9800 !important;
-        }
-
-        input:focus.validate + label {
-            color: #ff9800 !important;
-        }
-
-        .input-field .prefix.active {
-            color: #ff9800 !important;
-        }
-
-        body {
-            min-height: 100vh !important;
-            display: flex;
-            flex-direction: column;
-        }
-        .container {
-            flex-grow: 4;
-        }
-    </style>
+    <jsp:include page="../include/materializeOverride.jsp"/>
 </head>
 <body>
 <jsp:include page="../include/nav.jsp"/>
+<%
+    if (new UserDAO().findByRoleName(RoleNames.ADMIN).size() == 0) {
+        response.sendRedirect(request.getContextPath() + "/admin/setup.jsp");
+    }
+%>
+<jsp:include page="../fragment/errorList.jsp"/>
 <div class="container">
     <div class="row">
         <form class="col s12" method="post" action="${pageContext.request.contextPath}/admin/login">
@@ -64,6 +48,11 @@
     </div>
     <br><br>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        M.updateTextFields()
+    });
+</script>
 <jsp:include page="../include/footer.jsp"/>
 </body>
 </html>

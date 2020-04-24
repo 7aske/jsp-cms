@@ -19,6 +19,7 @@ import java.util.Set;
 
 @WebServlet("/admin/post/edit/*")
 public class EditPostServlet extends HttpServlet {
+	// TODO: all these idBlogPost should be changed to blog post
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idBlogPost = UrlUtil.getUrlBase(request.getRequestURL().toString());

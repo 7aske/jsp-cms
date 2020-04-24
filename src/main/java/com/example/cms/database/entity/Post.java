@@ -33,13 +33,10 @@ public class Post implements Serializable {
 
 	@JoinColumn(name = "id_user", referencedColumnName = "id_user")
 	@ManyToOne
-	private Author idUser;
+	private User idUser;
 
 	@OneToMany
-	@JoinTable(name = "post_tag",
-			joinColumns = @JoinColumn(name = "id_post"),
-			inverseJoinColumns = @JoinColumn(name = "id_tag")
-	)
+	@JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
 	private Set<Tag> tags;
 
 	public Post() {
@@ -101,11 +98,11 @@ public class Post implements Serializable {
 		this.published = published;
 	}
 
-	public Author getIdUser() {
+	public User getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(Author idUser) {
+	public void setIdUser(User idUser) {
 		this.idUser = idUser;
 	}
 

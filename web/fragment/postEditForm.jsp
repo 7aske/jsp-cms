@@ -51,6 +51,7 @@
     </div>
     <div class="row">
         <div class="col s12">
+            <label for="tags">Tags</label>
             <input id="tags" name="tags" type="hidden">
             <div class="chips chips-autocomplete">
             </div>

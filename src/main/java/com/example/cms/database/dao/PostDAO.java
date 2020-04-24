@@ -7,8 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PostDAO extends AbstractDAO<Post> {
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogpu");
-	private EntityManager em = emf.createEntityManager();
+	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogpu");
+	private final EntityManager em = emf.createEntityManager();
 
 	@Override
 	protected EntityManager getEntityManager() {
@@ -29,7 +29,7 @@ public class PostDAO extends AbstractDAO<Post> {
 	public Post findBySlug(final String slug) {
 		final String query = "select bp from Post bp where bp.slug = :slug";
 		try {
-			return em.createQuery(query, Post.class)
+			return getEntityManager().createQuery(query, Post.class)
 					.setParameter("slug", slug)
 					.getSingleResult();
 		} catch (NoResultException e) {
@@ -41,7 +41,7 @@ public class PostDAO extends AbstractDAO<Post> {
 	public List<Post> findAllPublished() {
 		final String query = "select bp from Post bp where bp.published = :published order by datePosted desc";
 		try {
-			return em.createQuery(query, Post.class)
+			return getEntityManager().createQuery(query, Post.class)
 					.setParameter("published", true)
 					.getResultList();
 		} catch (NoResultException e) {

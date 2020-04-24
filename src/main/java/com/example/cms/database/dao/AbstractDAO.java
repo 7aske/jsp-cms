@@ -7,20 +7,20 @@ import java.util.List;
 abstract public class AbstractDAO<T> {
 	private final Class<T> entityClass;
 
-	public AbstractDAO(Class<T> entityClass) {
+	public AbstractDAO(final Class<T> entityClass) {
 		this.entityClass = entityClass;
 	}
 
 	protected abstract EntityManager getEntityManager();
 
-	public void create(T entity) {
+	public void create(final T entity) {
 		EntityManager em = getEntityManager();
 		em.getTransaction().begin();
 		em.persist(entity);
 		em.getTransaction().commit();
 	}
 
-	public T update(T entity) {
+	public T update(final T entity) {
 		EntityManager em = getEntityManager();
 		em.getTransaction().begin();
 		T updated = em.merge(entity);
@@ -52,5 +52,15 @@ abstract public class AbstractDAO<T> {
 		CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClass);
 		cq.select(cq.from(entityClass));
 		return em.createQuery(cq).getResultList();
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		cleanUp();
+	}
+
+	protected void cleanUp() {
+		// getEntityManager().close();
 	}
 }

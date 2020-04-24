@@ -29,7 +29,7 @@
             </a>
             <a href="${pageContext.request.contextPath}/admin/admin.jsp"
                class="breadcrumb">
-                Admin
+                Posts
             </a>
             <c:if test="${post != null}">
                 <a href="${pageContext.request.contextPath}/admin/post/edit/${post.idPost}"
@@ -52,8 +52,10 @@
 </div>
 <br><br>
 <script type="text/javascript">
-    M.updateTextFields();
-    M.CharacterCounter.init(document.querySelectorAll("[data-length]"));
+    document.addEventListener("DOMContentLoaded", ()=>{
+        M.updateTextFields();
+        M.CharacterCounter.init(document.querySelectorAll("[data-length]"));
+    });
 </script>
 <script type="text/javascript">
     const simplemde = new SimpleMDE({

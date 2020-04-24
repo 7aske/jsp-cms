@@ -1,7 +1,10 @@
 package com.example.cms.database.entity;
 
+import com.example.cms.database.RoleNames;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -22,6 +25,13 @@ public class User implements Serializable {
 
 	@Column(name = "active")
 	private Boolean active;
+
+	@Column(name = "display_name")
+	private String displayName;
+
+	@OneToMany
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+	private Set<Role> roles;
 
 	public User() {
 	}
@@ -66,6 +76,31 @@ public class User implements Serializable {
 		this.active = active;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public boolean isAdmin(){
+		for (Role role : roles) {
+			if (role.getRoleName().equals(RoleNames.ADMIN)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -74,6 +109,8 @@ public class User implements Serializable {
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
 				", active=" + active +
+				", displayName='" + displayName + '\'' +
+				", roles=" + roles +
 				'}';
 	}
 }

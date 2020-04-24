@@ -3,4 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <security-constraint>
+        <display-name>Prevent access to raw pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Raw Pages</web-resource-name>
+            <url-pattern>/fragment/*</url-pattern>
+            <url-pattern>/include/*</url-pattern>
+            <url-pattern>/META-INF/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>No roles - no direct access</description>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

@@ -6,3 +6,5 @@ out
 *.cdb
 *.pdb
 *.pjb
+
+*.log

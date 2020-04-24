@@ -14,7 +14,13 @@ import java.util.*;
 public class AuthenticationFilter implements Filter {
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(
 			new HashSet<>(
-					Arrays.asList("", "/admin/login", "/admin/logout", "/admin/login.jsp")
+					Arrays.asList("",
+							"/admin/login",
+							"/admin/logout",
+							"/admin/login.jsp",
+							"/admin/setup.jsp",
+							"/admin/create"
+					)
 			));
 	Properties props;
 

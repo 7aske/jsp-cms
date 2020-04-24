@@ -34,7 +34,7 @@
             </a>
             <a href="${pageContext.request.contextPath}/admin/admin.jsp"
                class="breadcrumb">
-                Admin
+                Posts
             </a>
         </div>
     </div>

@@ -1,0 +1,95 @@
+package com.example.cms.servlet.admin.user.edit;
+
+import com.example.cms.database.RoleNames;
+import com.example.cms.database.dao.RoleDAO;
+import com.example.cms.database.dao.UserDAO;
+import com.example.cms.database.entity.Role;
+import com.example.cms.database.entity.User;
+import com.example.cms.security.Security;
+import com.example.cms.util.UrlUtil;
+import com.google.common.collect.Iterables;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@WebServlet("/admin/user/edit/*")
+public class EditUserServlet extends HttpServlet {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idUserString = UrlUtil.getUrlBase(request.getRequestURL().toString());
+		int idUser;
+		try {
+			idUser = Integer.parseInt(idUserString);
+		} catch (NumberFormatException ignored) {
+			response.sendRedirect(request.getContextPath() + "/admin/user/edit.jsp");
+			return;
+		}
+		User user = new UserDAO().find(idUser);
+		if (user != null) {
+			request.setAttribute("user", user);
+			request.getRequestDispatcher("/admin/user/edit.jsp").forward(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath() + "/admin/user/edit.jsp");
+		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		List<String> errors = new ArrayList<>();
+		String idUser = request.getParameter("idUser");
+		String email = request.getParameter("email");
+		String username = request.getParameter("username");
+		String displayName = request.getParameter("display_name");
+		String password = request.getParameter("password");
+		String password_confirm = request.getParameter("password_confirm");
+
+		UserDAO userDAO = new UserDAO();
+		RoleDAO roleDAO = new RoleDAO();
+
+		Set<Role> roles = new HashSet<>();
+		roles.add(roleDAO.findByName(RoleNames.AUTHOR));
+
+		User user = userDAO.findByUsername(username);
+
+		if (request.getParameter("roles") != null) {
+			roles.add(roleDAO.findByName(request.getParameter("roles")));
+		}
+
+		if (!password.equals(password_confirm)) {
+			errors.add("Passwords do not match");
+		}
+
+		if (user == null && !idUser.equals("")) { // update
+			errors.add("User doesn't exists");
+		} else if (user != null && idUser.equals("")) {// create
+			errors.add("User already exists");
+		} else  if (user == null)  {
+			user = new User();
+		}
+
+		if (errors.size() == 0) {
+			assert user != null;
+			user.setEmail(email);
+			user.setUsername(username);
+			user.setDisplayName(displayName);
+			user.setPassword(Security.hash(password));
+			user.setRoles(roles);
+			user.setActive(true);
+			user = userDAO.update(user);
+
+		} else {
+			request.setAttribute("errors", Iterables.toArray(errors, String.class));
+		}
+
+		request.setAttribute("user", user);
+		request.getRequestDispatcher("/admin/user/edit.jsp").forward(request, response);
+	}
+}
