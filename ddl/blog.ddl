@@ -1,10 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     4/23/2020 9:14:25 AM                         */
+/* Created on:     4/24/2020 2:20:41 PM                         */
 /*==============================================================*/
 
-
-drop table if exists author;
 
 drop table if exists comment;
 
@@ -19,17 +17,6 @@ drop table if exists tag;
 drop table if exists user;
 
 drop table if exists user_role;
-
-/*==============================================================*/
-/* Table: author                                                */
-/*==============================================================*/
-create table author
-(
-   id_user              int not null,
-   display_name         varchar(32) not null,
-   active               bool default false,
-   primary key (id_user)
-);
 
 /*==============================================================*/
 /* Table: comment                                               */
@@ -77,7 +64,7 @@ create table post_tag
 create table role
 (
    id_role              int not null auto_increment,
-   role_name            varchar(32) not null,
+   tag_name             varchar(32) not null,
    primary key (id_role)
 );
 
@@ -87,7 +74,7 @@ create table role
 create table tag
 (
    id_tag               int not null auto_increment,
-   role_name            varchar(32) not null,
+   tag_name             varchar(32) not null,
    primary key (id_tag)
 );
 
@@ -99,6 +86,7 @@ create table user
    id_user              int not null auto_increment,
    email                varchar(32) not null,
    username             varchar(32) not null,
+   display_name         varchar(32) not null,
    password             varchar(256) not null,
    active               bool default false,
    primary key (id_user)
@@ -114,14 +102,11 @@ create table user_role
    primary key (id_role, id_user)
 );
 
-alter table author add constraint fk_author_user foreign key (id_user)
-      references user (id_user) on delete restrict on update restrict;
-
 alter table comment add constraint fk_post_comment foreign key (id_post)
       references post (id_post) on delete restrict on update restrict;
 
-alter table post add constraint fk_post_author foreign key (id_user)
-      references author (id_user) on delete restrict on update restrict;
+alter table post add constraint fk_user_post foreign key (id_user)
+      references user (id_user) on delete restrict on update restrict;
 
 alter table post_tag add constraint fk_post_tag foreign key (id_tag)
       references tag (id_tag) on delete restrict on update restrict;
