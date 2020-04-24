@@ -28,6 +28,8 @@ public class AdminCreateServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String password_confirm = req.getParameter("password_confirm");
 
+		Set<Role> roles = new HashSet<>();
+
 		UserDAO userDAO = new UserDAO();
 		RoleDAO roleDAO = new RoleDAO();
 
@@ -41,9 +43,9 @@ public class AdminCreateServlet extends HttpServlet {
 
 		if (errors.size() == 0) {
 			User user = new User();
-			Set<Role> roles = new HashSet<>();
 
 			roles.add(roleDAO.findByName(RoleNames.ADMIN));
+			roles.add(roleDAO.findByName(RoleNames.AUTHOR));
 			user.setEmail(email);
 			user.setUsername(username);
 			user.setDisplayName(displayName);

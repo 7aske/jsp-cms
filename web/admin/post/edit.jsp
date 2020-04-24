@@ -45,7 +45,7 @@
         <jsp:param name="idBlogPost" value="${post.idPost}"/>
         <jsp:param name="title" value="${post.title}"/>
         <jsp:param name="slug" value="${post.slug}"/>
-        <jsp:param name="preview" value="${post.excerpt}"/>
+        <jsp:param name="excerpt" value="${post.excerpt}"/>
         <jsp:param name="body" value="${post.body}"/>
         <jsp:param name="published" value="${post.published}"/>
     </jsp:include>

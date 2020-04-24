@@ -25,10 +25,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Properties props = Config.getProperties();
-		int validity = Integer.parseInt(props.getProperty("session-validity"));
+
 		List<String> errors = new ArrayList<>();
+
 		User user = new UserDAO().findByUsername(username);
+
 		if (user == null) {
 			errors.add("User doesn't exists");
 		} else if (!user.getPassword().equals(Security.hash(password))) {
@@ -39,6 +40,9 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("errors", Iterables.toArray(errors, String.class));
 			request.getRequestDispatcher("/admin/login.jsp").forward(request, response);
 		} else {
+			assert user != null;
+			Properties props = Config.getProperties();
+			int validity = Integer.parseInt(props.getProperty("session-validity"));
 			HttpSession session = request.getSession(true);
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("idUser", user.getIdUser());

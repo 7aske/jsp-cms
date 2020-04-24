@@ -1,6 +1,4 @@
-<%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="com.example.cms.database.dao.UserDAO" %>
 <%@ page import="com.example.cms.database.entity.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -52,12 +50,14 @@
     <ul class="collection with-header">
         <li class="collection-header"><h5>Users</h5></li>
         <%for (User user : userList) { %>
+        <% if (user.getIdUser() != session.getAttribute("idUser")) { %>
         <li class="collection-item avatar">
             <i class="material-icons circle <%=user.getActive() ? "teal lighten-2" : "grey"%>">verified_user</i>
             <span class="title"><%=user.getUsername()%></span><span class="grey-text">&nbsp;<%=user.getDisplayName()%></span>
             <a href="${pageContext.request.contextPath}/admin/user/edit/<%=user.getIdUser()%>" class="secondary-content"><i class="material-icons orange-text">edit</i></a>
         </li>
-        <%}%>
+        <% } %>
+        <% } %>
     </ul>
 </div>
 <br><br>

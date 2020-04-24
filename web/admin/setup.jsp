@@ -1,6 +1,4 @@
 <%@ page import="com.example.cms.database.dao.UserDAO" %>
-<%@ page import="com.example.cms.database.entity.Role" %>
-<%@ page import="com.example.cms.database.dao.RoleDAO" %>
 <%@ page import="com.example.cms.database.RoleNames" %>
 <!DOCTYPE html>
 <html lang="en">

@@ -10,7 +10,7 @@
     String idBlogPost = request.getParameter("idBlogPost");
     String title = request.getParameter("title");
     String slug = request.getParameter("slug");
-    String preview = request.getParameter("preview");
+    String excerpt = request.getParameter("excerpt");
     String body = request.getParameter("body");
     boolean published = Boolean.parseBoolean(request.getParameter("published"));
 %>
@@ -59,8 +59,8 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <textarea id="preview" class="materialize-textarea" name="preview"><%=preview%></textarea>
-            <label for="preview">Preview Text</label>
+            <textarea id="excerpt" class="materialize-textarea" name="excerpt"><%=excerpt%></textarea>
+            <label for="excerpt">Preview Text</label>
         </div>
     </div>
     <div class="row">
