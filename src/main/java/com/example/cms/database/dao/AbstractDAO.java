@@ -5,7 +5,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 abstract public class AbstractDAO<T> {
-	private Class<T> entityClass;
+	private final Class<T> entityClass;
 
 	public AbstractDAO(Class<T> entityClass) {
 		this.entityClass = entityClass;

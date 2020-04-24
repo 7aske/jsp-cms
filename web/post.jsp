@@ -1,5 +1,5 @@
-<%@ page import="com.example.cms.database.entity.BlogPost" %>
-<%@ page import="com.example.cms.database.dao.BlogPostDAO" %>
+<%@ page import="com.example.cms.database.entity.Post" %>
+<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="com.example.cms.config.Config" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -9,13 +9,13 @@
         response.sendRedirect(request.getContextPath());
         return;
     }
-    BlogPost blogPost = new BlogPostDAO().findBySlug(slug);
-    if (blogPost == null) {
+    Post post = new PostDAO().findBySlug(slug);
+    if (post == null) {
         response.sendRedirect(request.getContextPath());
         return;
     }
 
-    request.setAttribute("post", blogPost);
+    request.setAttribute("post", post);
 %>
 <%
     String username = (String) session.getAttribute("username");
@@ -28,7 +28,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>
-        Blog - <%= blogPost.getTitle()%>
+        Blog - <%= post.getTitle()%>
     </title>
     <jsp:include page="include/head.jsp"/>
     <jsp:include page="include/markdown.jsp"/>
@@ -48,7 +48,7 @@
             </a>
             <a href="${pageContext.request.contextPath}/post/${pageContext.request.getAttribute("post").slug}"
                class="breadcrumb">
-                <%= blogPost.getTitle()%>
+                <%= post.getTitle()%>
             </a>
         </div>
     </div>
@@ -56,17 +56,17 @@
 <div class="section no-pad-bot">
     <div class="container">
         <h2>
-            <%= blogPost.getTitle()%>
+            <%= post.getTitle()%>
             <%
                 if (loggedIn) {
-                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/post/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), blogPost.getIdBlogPost()));
+                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/post/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), post.getIdPost()));
                 }
             %>
         </h2>
     </div>
 </div>
 <div class="container">
-    <div class="post-body"><%=blogPost.getBody()%></div>
+    <div class="post-body"><%=post.getBody()%></div>
     <br><br>
 </div>
 <jsp:include page="include/footer.jsp"/>

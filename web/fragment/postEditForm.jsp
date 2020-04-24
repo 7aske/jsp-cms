@@ -1,11 +1,9 @@
-<%@ page import="com.example.cms.database.entity.Tag" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.cms.database.dao.TagDAO" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="javax.servlet.jsp.tagext.TagData" %>
-<%@ page import="com.example.cms.database.entity.BlogPost" %>
-<%@ page import="com.example.cms.database.dao.BlogPostDAO" %>
 <%@ page import="java.util.HashSet" %>
+<%@ page import="com.example.cms.database.entity.Tag" %>
+<%@ page import="com.example.cms.database.dao.TagDAO" %>
+<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="json" uri="http://www.atg.com/taglibs/json" %>
 <%
@@ -73,14 +71,14 @@
 </form>
 <%
     TagDAO tagDAO = new TagDAO();
-    BlogPostDAO blogPostDAO = new BlogPostDAO();
+    PostDAO blogPostDAO = new PostDAO();
     List<Tag> tagList = tagDAO.findAll();
     request.setAttribute("tagList", tagList);
     Set<Tag> tags;
     try {
         tags = blogPostDAO.find(Long.parseLong(idBlogPost)).getTags();
     }  catch (NumberFormatException ex){
-    	tags = new HashSet<>();
+    	tags = new HashSet<Tag>();
     }
     request.setAttribute("tags", tags);
 %>

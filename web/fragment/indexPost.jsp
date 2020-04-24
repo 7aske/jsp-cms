@@ -6,7 +6,7 @@
                 <%=request.getParameter("title")%>
             </h5>
             <p class="light">
-                <%=request.getParameter("preview")%>
+                <%=request.getParameter("excerpt")%>
             </p>
             <div style="margin-top: .5em;">
                 <%

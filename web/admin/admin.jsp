@@ -1,6 +1,6 @@
-<%@ page import="com.example.cms.database.entity.BlogPost" %>
+<%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.cms.database.dao.BlogPostDAO" %>
+<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +23,8 @@
 <body>
 <jsp:include page="../include/nav.jsp"/>
 <%
-    List<BlogPost> blogPostList = new BlogPostDAO().findAll();
-    pageContext.setAttribute("blogPostList", blogPostList);
+    List<Post> postList = new PostDAO().findAll();
+    pageContext.setAttribute("blogPostList", postList);
 %>
 <nav class="light-blue lighten-2">
     <div class="nav-wrapper container">
@@ -47,8 +47,8 @@
             <jsp:include page="../fragment/adminPostListItem.jsp">
                 <jsp:param name="title" value="${post.title}"/>
                 <jsp:param name="slug" value="${post.slug}"/>
-                <jsp:param name="idBlogPost" value="${post.idBlogPost}"/>
-                <jsp:param name="preview" value="${post.preview}"/>
+                <jsp:param name="idPost" value="${post.idPost}"/>
+                <jsp:param name="excerpt" value="${post.excerpt}"/>
                 <jsp:param name="published" value="${post.published}"/>
             </jsp:include>
         </c:forEach>

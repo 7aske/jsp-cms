@@ -1,5 +1,5 @@
-<%@ page import="com.example.cms.database.entity.BlogPost" %>
-<%@ page import="com.example.cms.database.dao.BlogPostDAO" %>
+<%@ page import="com.example.cms.database.entity.Post" %>
+<%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,13 +13,13 @@
 <body>
 <jsp:include page="../../include/nav.jsp"/>
 <%
-    BlogPost blogPost = null;
+    Post post = null;
     try {
         long idBlogPost = Long.parseLong((String) request.getAttribute("idBlogPost"));
-        blogPost = new BlogPostDAO().find(idBlogPost);
+        post = new PostDAO().find(idBlogPost);
     } catch (NumberFormatException ignored) {
     }
-    pageContext.setAttribute("blogPost", blogPost);
+    pageContext.setAttribute("post", post);
 %>
 <nav class="light-blue lighten-2">
     <div class="nav-wrapper container">
@@ -31,10 +31,10 @@
                class="breadcrumb">
                 Admin
             </a>
-            <c:if test="${blogPost != null}">
-                <a href="${pageContext.request.contextPath}/admin/post/edit/${blogPost.idBlogPost}"
+            <c:if test="${post != null}">
+                <a href="${pageContext.request.contextPath}/admin/post/edit/${post.idPost}"
                    class="breadcrumb">
-                        ${blogPost.title}
+                        ${post.title}
                 </a>
             </c:if>
         </div>
@@ -42,12 +42,12 @@
 </nav>
 <div class="container">
     <jsp:include page="../../fragment/postEditForm.jsp">
-        <jsp:param name="idBlogPost" value="${blogPost.idBlogPost}"/>
-        <jsp:param name="title" value="${blogPost.title}"/>
-        <jsp:param name="slug" value="${blogPost.slug}"/>
-        <jsp:param name="preview" value="${blogPost.preview}"/>
-        <jsp:param name="body" value="${blogPost.body}"/>
-        <jsp:param name="published" value="${blogPost.published}"/>
+        <jsp:param name="idBlogPost" value="${post.idPost}"/>
+        <jsp:param name="title" value="${post.title}"/>
+        <jsp:param name="slug" value="${post.slug}"/>
+        <jsp:param name="preview" value="${post.excerpt}"/>
+        <jsp:param name="body" value="${post.body}"/>
+        <jsp:param name="published" value="${post.published}"/>
     </jsp:include>
 </div>
 <br><br>
