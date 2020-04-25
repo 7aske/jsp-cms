@@ -1,5 +1,7 @@
 package com.example.cms.database.entity;
 
+import com.example.cms.util.UrlUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,6 +32,10 @@ public class Tag implements Serializable {
 		return name;
 	}
 
+	public String getDecodedName() {
+		return UrlUtil.decodeValue(name);
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -39,7 +45,7 @@ public class Tag implements Serializable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Tag tag = (Tag) o;
-		return name.equals(tag.name);
+		return UrlUtil.decodeValue(name).equals(UrlUtil.decodeValue(tag.name));
 	}
 
 	@Override

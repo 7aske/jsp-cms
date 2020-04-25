@@ -103,13 +103,13 @@
         const tagsInput = document.querySelector('input[name="tags"]');
 
         // Update tags input element in page load
-        tagsInput.value =currTags.map(t => ({tag: t.name})).map(t => t.tag).join(",");
+        tagsInput.value = currTags.map(t => ({tag: t.name})).map(t => t.tag).join(",");
 
         const instance = M.Chips.init(document.querySelector('.chips-autocomplete'), {
-            data: currTags.map(t => ({tag: t.name})),
+            data: currTags.map(t => ({tag: decodeURIComponent(t.name)})),
             autocompleteOptions: {
                 data: tags.reduce((obj, item) => {
-                    obj[item.name] = null;
+                    obj[decodeURIComponent(item.name)] = null;
                     return obj;
                 }, {}),
             },

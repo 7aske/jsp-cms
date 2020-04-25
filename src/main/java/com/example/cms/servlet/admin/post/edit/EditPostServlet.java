@@ -54,7 +54,7 @@ public class EditPostServlet extends HttpServlet {
 			idBlogPost = Long.parseLong(idBlogPostString);
 			Post post = blogPostDAO.find(idBlogPost);
 			post.setTitle(title);
-			post.setSlug(slug);
+			post.setSlug(UrlUtil.encodeValue(slug));
 			post.setBody(body);
 			post.setExcerpt(excerpt);
 			post.setPublished(published);
@@ -63,7 +63,7 @@ public class EditPostServlet extends HttpServlet {
 		} catch (NumberFormatException ex) {
 			Post post = new Post();
 			post.setTitle(title);
-			post.setSlug(slug);
+			post.setSlug(UrlUtil.encodeValue(slug));
 			post.setBody(body);
 			post.setExcerpt(excerpt);
 			post.setPublished(published);

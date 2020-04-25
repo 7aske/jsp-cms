@@ -2,6 +2,7 @@
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URL" %>
+<%@ page import="com.example.cms.util.UrlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -29,7 +30,7 @@
   List<Post> posts;
   String tag = request.getParameter("tag");
   if (tag != null && !tag.equals("")){
-    posts = new PostDAO().findPublishedByTagName(tag);
+    posts = new PostDAO().findPublishedByTagName(UrlUtil.decodeValue(tag));
   } else{
     posts = new PostDAO().findAllPublished();
   }

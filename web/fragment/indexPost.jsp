@@ -1,3 +1,4 @@
+<%@ page import="com.example.cms.util.UrlUtil" %>
 <div class="col s12 m12 l12 xl3">
     <div class="card light-blue darken-1">
         <div class="card-content white-text">
@@ -13,7 +14,7 @@
                     String[] tags = request.getParameter("tags").split(",");
                     for (String tag : tags) {
                     	if(!tag.trim().equals("")){
-                            out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\"><a href=\"%s/?tag=%s\">%s</a></div>", request.getContextPath(), tag, tag));
+                            out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\"><a href=\"%s/?tag=%s\">%s</a></div>", request.getContextPath(), tag, UrlUtil.decodeValue(tag)));
                         }
                     }
                 %>
