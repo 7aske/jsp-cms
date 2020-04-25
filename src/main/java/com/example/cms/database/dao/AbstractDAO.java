@@ -61,6 +61,7 @@ abstract public class AbstractDAO<T> {
 	}
 
 	protected void cleanUp() {
+		getEntityManager().flush();
 		// getEntityManager().close();
 	}
 }

@@ -15,4 +15,16 @@
             <description>No roles - no direct access</description>
         </auth-constraint>
     </security-constraint>
+<!--    <resource-ref>-->
+<!--        <res-ref-name>jdbc/mysql</res-ref-name>-->
+<!--        <res-type>javax.sql.ConnectionPoolDataSource</res-type>-->
+<!--        <res-auth>Container</res-auth>-->
+<!--        <res-sharing-scope>Shareable</res-sharing-scope>-->
+<!--    </resource-ref>-->
+    <resource-ref>
+        <res-ref-name>jdbc/mysql</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>
