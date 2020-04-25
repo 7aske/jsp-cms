@@ -5,6 +5,11 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<fmt:setLocale value="${pageContext.session.getAttribute('lang')}"/>
+<fmt:setBundle basename="i18n/strings"/>
+
 <%
     String slug = (String) request.getAttribute("postSlug");
     if (slug == null) {
@@ -30,10 +35,9 @@
 <!DOCTYPE html>
 <html lang="<%=session.getAttribute("lang")%>">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>
-        Blog - <%= post.getTitle()%>
+        <fmt:message key="post.title"/><%= post.getTitle()%>
     </title>
     <jsp:include page="include/head.jsp"/>
     <jsp:include page="include/markdown.jsp"/>
@@ -71,7 +75,7 @@
     <div class="nav-wrapper container">
         <div class="col s12">
             <a href="${pageContext.request.contextPath}" class="breadcrumb">
-                Home
+                <fmt:message key="nav.home"/>
             </a>
             <a href="${pageContext.request.contextPath}/post/${pageContext.request.getAttribute("post").slug}"
                class="breadcrumb">
@@ -83,11 +87,12 @@
 <div class="section no-pad-bot">
     <div class="container">
         <h2>
-            <%
-                if (loggedIn) {
-                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/post/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), post.getIdPost()));
-                }
-            %>
+            <% if (loggedIn) { %>
+            <a class="btn orange"
+               href="<%=request.getContextPath()%>/admin/post/edit/<%=post.getIdPost()%>">
+                <fmt:message key="post.edit"/><i class="material-icons right">edit</i>
+            </a>
+            <% } %>
         </h2>
     </div>
 </div>
@@ -101,7 +106,7 @@
     <br/><br/>
 </div>
 <div class="container">
-    <h4>Comments</h4>
+    <h4><fmt:message key="post.comments.title"/></h4>
     <br/>
     <jsp:include page="fragment/errorList.jsp"/>
     <jsp:include page="fragment/commentForm.jsp">

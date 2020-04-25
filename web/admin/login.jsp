@@ -1,11 +1,16 @@
 <%@ page import="com.example.cms.database.dao.UserDAO" %>
 <%@ page import="com.example.cms.database.RoleNames" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<fmt:setLocale value="${pageContext.session.getAttribute('lang')}"/>
+<fmt:setBundle basename="i18n/strings"/>
+
 <!DOCTYPE html>
 <html lang="<%=session.getAttribute("lang")%>">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Blog - Admin Login</title>
+    <title><fmt:message key="login.title"/></title>
     <jsp:include page="../include/head.jsp"/>
     <jsp:include page="../include/materializeOverride.jsp"/>
 </head>
@@ -28,17 +33,17 @@
                     <div class="input-field col s12 m12 l12">
                         <i class="material-icons prefix">account_circle</i>
                         <input id="username" name="username" type="text" class="validate">
-                        <label for="username">Username</label>
+                        <label for="username"><fmt:message key="login.username.label"/></label>
                     </div>
                     <div class="input-field col s12 m12 l12">
                         <i class="material-icons prefix">lock</i>
                         <input id="password" name="password" type="password" class="validate">
-                        <label for="password">Password</label>
+                        <label for="password"><fmt:message key="login.password.label"/></label>
                     </div>
                     <div class="row">
                         <div class="col s12">
                             <button class="btn waves-light light-blue lighten-1" type="submit" name="action">
-                                Submit<i class="material-icons right">send</i>
+                                <fmt:message key="login.submit"/><i class="material-icons right">send</i>
                             </button>
                         </div>
                     </div>

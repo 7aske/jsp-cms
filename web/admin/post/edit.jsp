@@ -1,12 +1,18 @@
 <%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<fmt:setLocale value="${pageContext.session.getAttribute('lang')}"/>
+<fmt:setBundle basename="i18n/strings"/>
+
 <!DOCTYPE html>
 <html lang="<%=session.getAttribute("lang")%>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Admin - Edit</title>
+    <title><fmt:message key="admin.post.edit.title"/></title>
     <jsp:include page="../../include/head.jsp"/>
     <jsp:include page="../../include/mde.jsp"/>
 </head>
@@ -25,11 +31,11 @@
     <div class="nav-wrapper container">
         <div class="col s12">
             <a href="${pageContext.request.contextPath}" class="breadcrumb">
-                Home
+                <fmt:message key="nav.home"/>
             </a>
             <a href="${pageContext.request.contextPath}/admin/admin.jsp"
                class="breadcrumb">
-                Posts
+                <fmt:message key="nav.posts"/>
             </a>
             <c:if test="${post != null}">
                 <a href="${pageContext.request.contextPath}/admin/post/edit/${post.idPost}"
