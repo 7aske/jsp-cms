@@ -63,6 +63,7 @@
             <label for="excerpt">Preview Text</label>
         </div>
     </div>
+    <input id="author" name="author" type="text" hidden value="<%=session.getAttribute("idUser")%>">
     <div class="row">
         <div class="input-field col s12">
             <textarea id="body" name="body" hidden class="materialize-textarea"><%=body%></textarea>
@@ -78,8 +79,8 @@
     Set<Tag> tags;
     try {
         tags = blogPostDAO.find(Long.parseLong(idBlogPost)).getTags();
-    }  catch (NumberFormatException ex){
-    	tags = new HashSet<Tag>();
+    } catch (NumberFormatException ex) {
+        tags = new HashSet<Tag>();
     }
     request.setAttribute("tags", tags);
 %>

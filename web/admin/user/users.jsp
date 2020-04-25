@@ -50,13 +50,11 @@
     <ul class="collection with-header">
         <li class="collection-header"><h5>Users</h5></li>
         <%for (User user : userList) { %>
-        <% if (user.getIdUser() != session.getAttribute("idUser")) { %>
         <li class="collection-item avatar">
             <i class="material-icons circle <%=user.getActive() ? "teal lighten-2" : "grey"%>">verified_user</i>
-            <span class="title"><%=user.getUsername()%></span><span class="grey-text">&nbsp;<%=user.getDisplayName()%></span>
+            <span class="title"><%=user.getUsername()%></span><span class="grey-text">&nbsp;&nbsp;<%=user.getDisplayName()%></span>
             <a href="${pageContext.request.contextPath}/admin/user/edit/<%=user.getIdUser()%>" class="secondary-content"><i class="material-icons orange-text">edit</i></a>
         </li>
-        <% } %>
         <% } %>
     </ul>
 </div>

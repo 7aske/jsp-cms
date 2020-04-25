@@ -1,7 +1,7 @@
 <div class="col s12 m12 l12 xl3">
     <div class="card light-blue darken-1">
         <div class="card-content white-text">
-            <span>Posted on <%=request.getParameter("datePosted")%></span>
+            <span>Posted on <%=request.getParameter("datePosted")%></span> by <span class="orange-text"><%=request.getParameter("display_name")%></span>
             <h5 class="card-title">
                 <%=request.getParameter("title")%>
             </h5>
@@ -16,7 +16,6 @@
                             out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\">%s</div>", tag));
                         }
                     }
-
                 %>
             </div>
         </div>

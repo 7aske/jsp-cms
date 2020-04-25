@@ -35,6 +35,7 @@
       <jsp:param name="slug" value="${post.slug}"/>
       <jsp:param name="datePosted" value="${post.datePosted}"/>
       <jsp:param name="tags" value="${post.tags.stream().map(t -> t.name).reduce((l, r) -> l += ',' += r).orElse('')}"/>
+      <jsp:param name="display_name" value="${post.idUser.displayName}"/>
     </jsp:include>
   </c:forEach>
 </div>
