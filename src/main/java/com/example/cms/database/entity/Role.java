@@ -39,7 +39,7 @@ public class Role implements Serializable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Role role = (Role) o;
-		return idRole.equals(role.idRole);
+		return roleName.equals(role.roleName);
 	}
 
 	@Override

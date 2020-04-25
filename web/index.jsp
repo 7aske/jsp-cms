@@ -1,8 +1,10 @@
 <%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.net.URL" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +25,18 @@
   </div>
 </div>
 <%
-  List<Post> posts = new PostDAO().findAllPublished();
+
+  List<Post> posts;
+  String tag = request.getParameter("tag");
+  if (tag != null && !tag.equals("")){
+    posts = new PostDAO().findPublishedByTagName(tag);
+  } else{
+    posts = new PostDAO().findAllPublished();
+  }
+
   pageContext.setAttribute("posts", posts);
 %>
+
 <div class="row">
   <c:forEach items="${posts}" var="post">
     <jsp:include page="fragment/indexPost.jsp">

@@ -13,7 +13,7 @@
                     String[] tags = request.getParameter("tags").split(",");
                     for (String tag : tags) {
                     	if(!tag.trim().equals("")){
-                            out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\">%s</div>", tag));
+                            out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\"><a href=\"%s/?tag=%s\">%s</a></div>", request.getContextPath(), tag, tag));
                         }
                     }
                 %>

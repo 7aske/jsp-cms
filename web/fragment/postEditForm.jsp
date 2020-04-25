@@ -100,11 +100,11 @@
         </json:object>
         </json:array>;
     document.addEventListener('DOMContentLoaded', function () {
-        console.log(tags.reduce((obj, item) => {
-            obj[item.name] = null;
-            return obj;
-        }, {}));
         const tagsInput = document.querySelector('input[name="tags"]');
+
+        // Update tags input element in page load
+        tagsInput.value =currTags.map(t => ({tag: t.name})).map(t => t.tag).join(",");
+
         const instance = M.Chips.init(document.querySelector('.chips-autocomplete'), {
             data: currTags.map(t => ({tag: t.name})),
             autocompleteOptions: {

@@ -1,10 +1,13 @@
 package com.example.cms.database.dao;
 
 import com.example.cms.database.entity.Post;
+import com.example.cms.database.entity.Tag;
+import com.example.cms.database.entity.User;
+import com.example.cms.util.SetUtil;
 
 import javax.persistence.*;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PostDAO extends AbstractDAO<Post> {
 	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogpu");
@@ -36,6 +39,36 @@ public class PostDAO extends AbstractDAO<Post> {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public List<Post> findByTagName(final String tagName) {
+		Set<Tag> tagSet = new HashSet<>();
+		Tag tag = new TagDAO().findByName(tagName);
+		if (tag != null) {
+			tagSet.add(tag);
+		}
+		return findByTagList(tagSet);
+	}
+
+	public List<Post> findByTagList(final Collection<Tag> tags) {
+		// SCREW YOU JPA
+		List<Post> posts = findAll();
+		return posts.stream().filter(p -> SetUtil.inter(p.getTags(), tags).size() > 0).collect(Collectors.toList());
+	}
+
+	public List<Post> findPublishedByTagName(final String tagName) {
+		Set<Tag> tagSet = new HashSet<>();
+		Tag tag = new TagDAO().findByName(tagName);
+		if (tag != null) {
+			tagSet.add(tag);
+		}
+		return findPublishedByTagList(tagSet);
+	}
+
+	public List<Post> findPublishedByTagList(final Collection<Tag> tags) {
+		// SCREW YOU JPA
+		List<Post> posts = findAllPublished();
+		return posts.stream().filter(p -> SetUtil.inter(p.getTags(), tags).size() > 0).collect(Collectors.toList());
 	}
 
 	public List<Post> findAllPublished() {
