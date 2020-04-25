@@ -3,6 +3,7 @@ package com.example.cms.database.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,6 +39,10 @@ public class Post implements Serializable {
 	@OneToMany
 	@JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
 	private Set<Tag> tags;
+
+	@OneToMany
+	@JoinColumn(name = "id_post")
+	private List<Comment> commentList;
 
 	public Post() {
 	}
@@ -114,6 +119,14 @@ public class Post implements Serializable {
 		this.tags = tags;
 	}
 
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
 	@Override
 	public String toString() {
 		return "Post{" +
@@ -126,6 +139,7 @@ public class Post implements Serializable {
 				", published=" + published +
 				", idUser=" + idUser +
 				", tags=" + tags +
+				", commentList=" + commentList +
 				'}';
 	}
 }

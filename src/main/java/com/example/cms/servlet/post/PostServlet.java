@@ -17,4 +17,11 @@ public class PostServlet extends HttpServlet {
 		request.setAttribute("postSlug", slug);
 		request.getRequestDispatcher("/post.jsp").forward(request, response);
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String slug = UrlUtil.getUrlBase(request.getRequestURL().toString());
+		request.setAttribute("postSlug", slug);
+		request.getRequestDispatcher("/post.jsp").forward(request, response);
+	}
 }

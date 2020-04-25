@@ -1,6 +1,8 @@
 <%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="com.example.cms.config.Config" %>
+<%@ page import="com.example.cms.database.entity.Comment" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
@@ -16,6 +18,9 @@
     }
 
     request.setAttribute("post", post);
+
+    List<Comment> commentList = post.getCommentList();
+    request.setAttribute("commentList", commentList);
 %>
 <%
     String username = (String) session.getAttribute("username");
@@ -35,6 +40,28 @@
     <style>
         .post-body img {
             max-width: 100%;
+        }
+
+        .show-less, .show-more {
+            background-color: transparent;
+            box-shadow: 0 0 0 transparent;
+            color: #ff9800;
+            border: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin: 0 !important;
+        }
+
+        .show-less:active, .show-more:active {
+            background-color: transparent;
+        }
+
+        .comment-body.truncate ~ .show-less {
+            display: none;
+        }
+
+        .comment-body:not(.truncate) ~ .show-more {
+            display: none;
         }
     </style>
 </head>
@@ -56,7 +83,6 @@
 <div class="section no-pad-bot">
     <div class="container">
         <h2>
-            <%= post.getTitle()%>
             <%
                 if (loggedIn) {
                     out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/post/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), post.getIdPost()));
@@ -66,9 +92,33 @@
     </div>
 </div>
 <div class="container">
-    <div class="post-body"><%=post.getBody()%></div>
-    <br><br>
+    <span><%=post.getDatePosted()%></span>
+    <div class="post-body"><%=post.getBody()%>
+    </div>
+    <br/>
+    <span>Posted on <%=post.getDatePosted()%></span> by <span
+        class="orange-text"><%=post.getIdUser().getDisplayName()%></span>
+    <br/><br/>
 </div>
+<div class="container">
+    <h4>Comments</h4>
+    <br/>
+    <jsp:include page="fragment/errorList.jsp"/>
+    <jsp:include page="fragment/commentForm.jsp">
+        <jsp:param name="idPost" value="${post.idPost}"/>
+    </jsp:include>
+    <c:forEach items="${commentList}" var="comment">
+        <jsp:include page="fragment/comment.jsp">
+            <jsp:param name="idComment" value="${comment.idComment}"/>
+            <jsp:param name="idPost" value="${comment.idPost}"/>
+            <jsp:param name="commenterEmail" value="${comment.commenterEmail}"/>
+            <jsp:param name="commenterName" value="${comment.commenterName}"/>
+            <jsp:param name="body" value="${comment.body}"/>
+            <jsp:param name="dateCommented" value="${comment.dateCommented}"/>
+        </jsp:include>
+    </c:forEach>
+</div>
+
 <jsp:include page="include/footer.jsp"/>
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", () => {
