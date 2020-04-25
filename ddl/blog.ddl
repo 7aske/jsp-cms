@@ -64,7 +64,7 @@ create table post_tag
 create table role
 (
    id_role              int not null auto_increment,
-   tag_name             varchar(32) not null,
+   role_name            varchar(32) not null,
    primary key (id_role)
 );
 

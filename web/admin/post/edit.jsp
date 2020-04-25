@@ -21,8 +21,8 @@
 <%
     Post post = null;
     try {
-        long idBlogPost = Long.parseLong((String) request.getAttribute("idBlogPost"));
-        post = new PostDAO().find(idBlogPost);
+        long idPost = Long.parseLong((String) request.getAttribute("idPost"));
+        post = new PostDAO().find(idPost);
     } catch (NumberFormatException ignored) {
     }
     pageContext.setAttribute("post", post);
@@ -48,7 +48,7 @@
 </nav>
 <div class="container">
     <jsp:include page="../../fragment/postEditForm.jsp">
-        <jsp:param name="idBlogPost" value="${post.idPost}"/>
+        <jsp:param name="idPost" value="${post.idPost}"/>
         <jsp:param name="title" value="${post.title}"/>
         <jsp:param name="slug" value="${post.slug}"/>
         <jsp:param name="excerpt" value="${post.excerpt}"/>

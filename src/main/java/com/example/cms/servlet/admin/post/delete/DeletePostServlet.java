@@ -14,13 +14,13 @@ import java.io.IOException;
 public class DeletePostServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idBlogPostString = UrlUtil.getUrlBase(request.getRequestURL().toString());
-		long idBlogPost;
+		String idPostString = UrlUtil.getUrlBase(request.getRequestURL().toString());
+		long idPost;
 		PostDAO blogPostDAO = new PostDAO();
-		System.out.println(idBlogPostString);
+		System.out.println(idPostString);
 		try {
-			idBlogPost = Long.parseLong(idBlogPostString);
-			blogPostDAO.removeById(idBlogPost);
+			idPost = Long.parseLong(idPostString);
+			blogPostDAO.removeById(idPost);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}

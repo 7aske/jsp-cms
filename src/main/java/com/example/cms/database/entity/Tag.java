@@ -14,7 +14,7 @@ public class Tag implements Serializable {
 	@Column(name = "id_tag")
 	private Long idTag;
 
-	@Column(name = "name")
+	@Column(name = "tag_name")
 	private String name;
 
 	public Tag() {

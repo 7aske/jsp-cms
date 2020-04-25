@@ -16,12 +16,11 @@
 <jsp:include page="navMaterializeOverride.jsp"/>
 <nav class="light-blue lighten-1" role="navigation">
     <ul id="dropdown1" class="dropdown-content">
-        <li><a href="<%=request.getContextPath()%>/admin/admin.jsp"><fmt:message key="nav.tags"/></a></li>
+        <li><a href="<%=request.getContextPath()%>/admin/admin.jsp"><fmt:message key="nav.posts"/></a></li>
         <% if (Util.hasRole(roles, RoleNames.ADMIN)) { %>
         <li><a href="<%=request.getContextPath()%>/admin/user/users.jsp"><fmt:message key="nav.users"/></a></li>
         <%}%>
         <li><a href="<%=request.getContextPath()%>/admin/tag/tags.jsp"><fmt:message key="nav.tags"/></a></li>
-
     </ul>
     <div class="nav-wrapper container">
         <a id="logo-container" href="${pageContext.request.contextPath}" class="brand-logo"><fmt:message key="nav.title"/></a>
