@@ -59,7 +59,6 @@ public class PostDAO extends AbstractDAO<Post> {
 	public List<Post> findPublishedByTagName(final String tagName) {
 		Set<Tag> tagSet = new HashSet<>();
 		Tag tag = new TagDAO().findByName(tagName);
-		System.out.println(tag);
 		if (tag != null) {
 			tagSet.add(tag);
 		}
