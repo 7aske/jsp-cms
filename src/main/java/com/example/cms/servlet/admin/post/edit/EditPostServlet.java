@@ -70,9 +70,9 @@ public class EditPostServlet extends HttpServlet {
 			post.setDatePosted(LocalDate.now());
 			post.setTags(tagList);
 			// FIXME
-			// post.setAuthor((String) Config.getProperties().get("author"));
+			// post.setAuthor((String) Config.getProperties().get("author"))
 			blogPostDAO.create(post);
 		}
-		response.sendRedirect(request.getContextPath() + "/admin/admin.jsp");
+		response.sendRedirect(request.getContextPath() + "/admin/post/edit/" + idBlogPostString);
 	}
 }

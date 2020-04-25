@@ -1,11 +1,10 @@
 <%@ page import="com.example.cms.database.entity.Post" %>
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.net.URL" %>
 <%@ page import="com.example.cms.util.UrlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>

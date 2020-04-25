@@ -38,7 +38,7 @@ create table comment
 create table post
 (
    id_post              int not null auto_increment,
-   id_user              int not null,
+   id_user              int,
    title                varchar(64) not null,
    excerpt              varchar(512) not null,
    body                 text not null,
@@ -109,10 +109,10 @@ alter table post add constraint fk_user_post foreign key (id_user)
       references user (id_user) on delete restrict on update restrict;
 
 alter table post_tag add constraint fk_post_tag foreign key (id_tag)
-      references tag (id_tag) on delete restrict on update restrict;
+      references tag (id_tag) on delete cascade on update restrict;
 
 alter table post_tag add constraint fk_post_tag2 foreign key (id_post)
-      references post (id_post) on delete restrict on update restrict;
+      references post (id_post) on delete cascade on update restrict;
 
 alter table user_role add constraint fk_user_role foreign key (id_role)
       references role (id_role) on delete restrict on update restrict;
