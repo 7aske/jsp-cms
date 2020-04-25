@@ -1,6 +1,7 @@
 <%@ page import="com.example.cms.database.entity.Tag" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.cms.database.dao.TagDAO" %>
+<%@ page import="com.example.cms.util.UrlUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +44,6 @@
 <jsp:include page="../../fragment/errorList.jsp"/>
 <%
     List<Tag> tagList = new TagDAO().findAll();
-    pageContext.setAttribute("tagList", tagList);
 %>
 <div class="container">
     <br/>
@@ -51,17 +51,14 @@
         <h5>Tags</h5>
         <br/>
         <div>
-            <c:forEach items="${tagList}" var="tag">
-                <form style="display: inline-block"
-                      method="post"
-                      action="${pageContext.request.contextPath}/admin/tag/delete/${tag.idTag}">
-                    <button style="border: 0" type="submit" class="chip">
-                            ${tag.name}
-                        <i class="material-icons"
-                           style="font-size: 1.25em; vertical-align: middle; line-height: 1.25em;">close</i>
-                    </button>
-                </form>
-            </c:forEach>
+            <% for (Tag tag : tagList) { %>
+            <form style="display: inline-block" method="post" action="${pageContext.request.contextPath}/admin/tag/delete/<%=tag.getIdTag()%>">
+                <button style="border: 0" type="submit" class="chip">
+                    <%=UrlUtil.decodeValue(tag.getName())%>
+                    <i class="material-icons" style="font-size: 1.25em; vertical-align: middle; line-height: 1.25em;">close</i>
+                </button>
+            </form>
+            <% } %>
         </div>
     </div>
     <form method="post" action="${pageContext.request.contextPath}/admin/tag">
@@ -72,7 +69,6 @@
                 <button class="btn orange" type="submit">Add</button>
             </div>
         </div>
-
     </form>
 </div>
 <br><br>
