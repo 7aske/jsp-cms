@@ -35,9 +35,9 @@
     List<Post> posts;
     String tag = request.getParameter("tag");
     if (tag != null && !tag.equals("")) {
-        posts = new PostDAO().findPublishedByTagName(UrlUtil.decodeValue(tag)).subList(0, postLimit);
+        posts = new PostDAO().findPublishedByTagName(UrlUtil.decodeValue(tag), postLimit);
     } else {
-        posts = new PostDAO().findAllPublished().subList(0, postLimit);
+        posts = new PostDAO().findAllPublished(postLimit);
     }
 
     pageContext.setAttribute("posts", posts);
