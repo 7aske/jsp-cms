@@ -120,3 +120,5 @@ alter table user_role add constraint fk_user_role foreign key (id_role)
 alter table user_role add constraint fk_user_role2 foreign key (id_user)
       references user (id_user) on delete restrict on update restrict;
 
+insert into blog.role (id_role, role_name) values (1, 'admin');
+insert into blog.role (id_role, role_name) values (2, 'author');
