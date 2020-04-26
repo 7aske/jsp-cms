@@ -23,7 +23,7 @@
         response.sendRedirect(request.getContextPath() + "/");
     }
 %>
-
+<jsp:include page="../fragment/errorList.jsp"/>
 <div class="container">
     <div class="row">
         <jsp:include page="../fragment/adminUserCreateForm.jsp">

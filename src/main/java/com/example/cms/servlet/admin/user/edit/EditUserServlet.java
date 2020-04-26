@@ -1,5 +1,6 @@
 package com.example.cms.servlet.admin.user.edit;
 
+import com.example.cms.config.Config;
 import com.example.cms.database.RoleNames;
 import com.example.cms.database.dao.RoleDAO;
 import com.example.cms.database.dao.UserDAO;
@@ -43,13 +44,16 @@ public class EditUserServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<String> errors = new ArrayList<>();
+		String locale = (String) request.getSession().getAttribute("lang");
+
 		String idUser = request.getParameter("idUser");
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
 		String displayName = request.getParameter("display_name");
 		String password = request.getParameter("password");
 		String password_confirm = request.getParameter("password_confirm");
+
+		List<String> errors = new ArrayList<>();
 
 		UserDAO userDAO = new UserDAO();
 		RoleDAO roleDAO = new RoleDAO();
@@ -59,19 +63,20 @@ public class EditUserServlet extends HttpServlet {
 
 		User user = userDAO.findByUsername(username);
 
+		//FIXME: bad bad
 		if (request.getParameter("roles") != null) {
 			roles.add(roleDAO.findByName(request.getParameter("roles")));
 		}
 
 		if (!password.equals(password_confirm)) {
-			errors.add("Passwords do not match");
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.password_not_match"));
 		}
 
 		if (user == null && !idUser.equals("")) { // update
-			errors.add("User doesn't exists");
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.user_not_exists"));
 		} else if (user != null && idUser.equals("")) {// create
-			errors.add("User already exists");
-		} else  if (user == null)  {
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.user_exists"));
+		} else if (user == null)  {
 			user = new User();
 		}
 
@@ -84,12 +89,15 @@ public class EditUserServlet extends HttpServlet {
 			user.setRoles(roles);
 			user.setActive(true);
 			user = userDAO.update(user);
-
 		} else {
 			request.setAttribute("errors", Iterables.toArray(errors, String.class));
 		}
-
 		request.setAttribute("user", user);
-		request.getRequestDispatcher("/admin/user/edit.jsp").forward(request, response);
+
+		if (request.getParameter("setup") != null && request.getParameter("setup").equals("on")){
+			request.getRequestDispatcher("/setup.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/admin/user/edit.jsp").forward(request, response);
+		}
 	}
 }
