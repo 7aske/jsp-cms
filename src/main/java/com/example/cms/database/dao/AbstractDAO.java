@@ -41,9 +41,9 @@ abstract public class AbstractDAO<T> {
 			t = (T) session.merge(entity);
 			transaction.commit();
 			session.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null){
+			if (transaction != null) {
 				transaction.rollback();
 			}
 		}
@@ -55,12 +55,12 @@ abstract public class AbstractDAO<T> {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.remove(session.merge(entity));
+			session.delete(entity);
 			transaction.commit();
 			session.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null){
+			if (transaction != null) {
 				transaction.rollback();
 			}
 		}
@@ -68,20 +68,8 @@ abstract public class AbstractDAO<T> {
 
 	@Transactional
 	public void removeById(Object id) {
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			session.remove(session.merge(this.find(id)));
-			transaction.commit();
-			session.close();
-		}catch (Exception e){
-			e.printStackTrace();
-			if (transaction != null){
-				transaction.rollback();
-			}
-		}
+		remove(find(id));
 	}
-
 
 	@Transactional
 	public T find(Object id) {
@@ -92,11 +80,8 @@ abstract public class AbstractDAO<T> {
 			t = session.find(entityClass, id);
 			transaction.commit();
 			session.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null){
-				transaction.rollback();
-			}
 		}
 		return t;
 	}
@@ -112,23 +97,9 @@ abstract public class AbstractDAO<T> {
 			tList = session.createQuery(tCriteriaQuery).getResultList();
 			transaction.commit();
 			session.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null){
-				transaction.rollback();
-			}
 		}
 		return tList;
 	}
-
-	// @Override
-	// protected void finalize() throws Throwable {
-	// 	super.finalize();
-	// 	cleanUp();
-	// }
-	//
-	// protected void cleanUp() {
-	// 	getEntityManager().flush();
-	// 	// getEntityManager().close();
-	// }
 }

@@ -29,7 +29,6 @@ public class Post implements Serializable {
 	private String slug;
 
 	@Column(name = "date_posted")
-	// @Temporal(TemporalType.DATE)
 	private LocalDate datePosted;
 
 	@Column(name = "published")
@@ -43,7 +42,7 @@ public class Post implements Serializable {
 	@JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
 	private Set<Tag> tags = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_post")
 	private List<Comment> commentList = new ArrayList<>();
 

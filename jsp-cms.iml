@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="blog" value="ba06395c-0cef-4406-8678-6babe88a78b5" />
           <factory-entry name="blogpu" value="ba06395c-0cef-4406-8678-6babe88a78b5" />
         </datasource-mapping>
         <naming-strategy-map />
@@ -18,6 +19,7 @@
           <unit-entry name="hibernate.cfg.xml" />
         </datasource-map>
         <naming-strategy-map />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
       </configuration>
     </facet>
     <facet type="web" name="Web">

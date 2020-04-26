@@ -24,7 +24,7 @@ public class UserDAO extends AbstractDAO<User> {
 	public User findByUsername(final String username) {
 		final String QUERY = "select u from User u where u.username = :username";
 		User user = null;
-		Transaction transaction = null;
+		Transaction transaction;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			user = session.createQuery(QUERY, User.class)
@@ -34,9 +34,6 @@ public class UserDAO extends AbstractDAO<User> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null){
-				transaction.rollback();
-			}
 		}
 		return user;
 	}

@@ -17,7 +17,7 @@ public class RoleDAO extends AbstractDAO<Role> {
 	public Role findByName(final String roleName) {
 		final String QUERY = "select r from Role r where r.roleName = :roleName";
 		Role role = null;
-		Transaction transaction = null;
+		Transaction transaction;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			role = session.createQuery(QUERY, Role.class)
@@ -27,9 +27,6 @@ public class RoleDAO extends AbstractDAO<Role> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		}
 		return role;
 

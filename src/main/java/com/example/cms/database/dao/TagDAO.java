@@ -13,7 +13,6 @@ public class TagDAO extends AbstractDAO<Tag> {
 		super(Tag.class);
 	}
 
-
 	@Override
 	@Transactional
 	public void create(Tag entity) {
@@ -26,7 +25,7 @@ public class TagDAO extends AbstractDAO<Tag> {
 		String urlEncoded = UrlUtil.encodeValue(name);
 		final String QUERY = "select t from Tag t where t.name = :name or t.name = :urlEncoded";
 		Tag tag = null;
-		Transaction transaction = null;
+		Transaction transaction;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			tag = session.createQuery(QUERY, Tag.class)
@@ -37,9 +36,6 @@ public class TagDAO extends AbstractDAO<Tag> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		}
 		return tag;
 	}

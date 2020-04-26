@@ -1,5 +1,6 @@
 package com.example.cms.database.dao;
 
+import com.example.cms.database.entity.Comment;
 import com.example.cms.database.entity.Post;
 import com.example.cms.database.entity.Tag;
 import com.example.cms.util.HibernateUtil;
@@ -40,11 +41,24 @@ public class PostDAO extends AbstractDAO<Post> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		}
 		return post;
+	}
+
+	@Override
+	public void remove(Post entity) {
+		CommentDAO commentDAO = new CommentDAO();
+		if (entity.getCommentList() != null) {
+			for (Comment comment : entity.getCommentList()) {
+				commentDAO.remove(comment);
+			}
+		}
+		super.remove(entity);
+	}
+
+	@Override
+	public void removeById(Object id) {
+		remove(find(id));
 	}
 
 	public List<Post> findByTagName(final String tagName) {
@@ -107,9 +121,6 @@ public class PostDAO extends AbstractDAO<Post> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		}
 		return posts;
 	}
@@ -130,9 +141,6 @@ public class PostDAO extends AbstractDAO<Post> {
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		}
 		return posts;
 	}
