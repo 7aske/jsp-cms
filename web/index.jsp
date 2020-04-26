@@ -2,6 +2,7 @@
 <%@ page import="com.example.cms.database.dao.PostDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.cms.util.UrlUtil" %>
+<%@ page import="com.example.cms.config.Config" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -30,12 +31,13 @@
     </div>
 </div>
 <%
+    int postLimit = Integer.parseInt(Config.getProperties().getProperty("post-limit"));
     List<Post> posts;
     String tag = request.getParameter("tag");
     if (tag != null && !tag.equals("")) {
-        posts = new PostDAO().findPublishedByTagName(UrlUtil.decodeValue(tag));
+        posts = new PostDAO().findPublishedByTagName(UrlUtil.decodeValue(tag)).subList(0, postLimit);
     } else {
-        posts = new PostDAO().findAllPublished();
+        posts = new PostDAO().findAllPublished().subList(0, postLimit);
     }
 
     pageContext.setAttribute("posts", posts);
@@ -49,7 +51,8 @@
             <jsp:param name="idUser" value="${post.idUser.idUser}"/>
             <jsp:param name="slug" value="${post.slug}"/>
             <jsp:param name="datePosted" value="${post.datePosted}"/>
-            <jsp:param name="tags" value="${post.tags.stream().map(t -> t.name).reduce((l, r) -> l += ',' += r).orElse('')}"/>
+            <jsp:param name="tags"
+                       value="${post.tags.stream().map(t -> t.name).reduce((l, r) -> l += ',' += r).orElse('')}"/>
             <jsp:param name="display_name" value="${post.idUser.displayName}"/>
         </jsp:include>
     </c:forEach>
