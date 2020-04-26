@@ -3,6 +3,8 @@ package com.example.cms.database.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class Post implements Serializable {
 	private String slug;
 
 	@Column(name = "date_posted")
-	@Temporal(TemporalType.DATE)
+	// @Temporal(TemporalType.DATE)
 	private LocalDate datePosted;
 
 	@Column(name = "published")
@@ -37,13 +39,13 @@ public class Post implements Serializable {
 	@ManyToOne
 	private User idUser;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
-	private Set<Tag> tags;
+	private Set<Tag> tags = new HashSet<>();
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_post")
-	private List<Comment> commentList;
+	private List<Comment> commentList = new ArrayList<>();
 
 	public Post() {
 	}

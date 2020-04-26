@@ -1,7 +1,12 @@
 package com.example.cms.database.dao;
 
-import javax.persistence.EntityManager;
+import com.example.cms.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 abstract public class AbstractDAO<T> {
@@ -11,57 +16,119 @@ abstract public class AbstractDAO<T> {
 		this.entityClass = entityClass;
 	}
 
-	protected abstract EntityManager getEntityManager();
-
+	@Transactional
 	public void create(final T entity) {
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		em.persist(entity);
-		em.getTransaction().commit();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.save(entity);
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
 	}
 
+	@Transactional
 	public T update(final T entity) {
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		T updated = em.merge(entity);
-		em.getTransaction().commit();
-		return updated;
+		T t = null;
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			t = (T) session.merge(entity);
+			transaction.commit();
+			session.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			if (transaction != null){
+				transaction.rollback();
+			}
+		}
+		return t;
 	}
 
+	@Transactional
 	public void remove(T entity) {
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		em.remove(em.merge(entity));
-		em.getTransaction().commit();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.remove(session.merge(entity));
+			transaction.commit();
+			session.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			if (transaction != null){
+				transaction.rollback();
+			}
+		}
 	}
 
+	@Transactional
 	public void removeById(Object id) {
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		em.remove(em.merge(this.find(id)));
-		em.getTransaction().commit();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.remove(session.merge(this.find(id)));
+			transaction.commit();
+			session.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			if (transaction != null){
+				transaction.rollback();
+			}
+		}
 	}
 
+
+	@Transactional
 	public T find(Object id) {
-		EntityManager em = getEntityManager();
-		return em.find(entityClass, id);
+		T t = null;
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			t = session.find(entityClass, id);
+			transaction.commit();
+			session.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			if (transaction != null){
+				transaction.rollback();
+			}
+		}
+		return t;
 	}
 
+	@Transactional
 	public List<T> findAll() {
-		EntityManager em = getEntityManager();
-		CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClass);
-		cq.select(cq.from(entityClass));
-		return em.createQuery(cq).getResultList();
+		List<T> tList = new ArrayList<>();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			CriteriaQuery<T> tCriteriaQuery = session.getCriteriaBuilder().createQuery(entityClass);
+			tCriteriaQuery.select(tCriteriaQuery.from(entityClass));
+			tList = session.createQuery(tCriteriaQuery).getResultList();
+			transaction.commit();
+			session.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			if (transaction != null){
+				transaction.rollback();
+			}
+		}
+		return tList;
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		cleanUp();
-	}
-
-	protected void cleanUp() {
-		getEntityManager().flush();
-		// getEntityManager().close();
-	}
+	// @Override
+	// protected void finalize() throws Throwable {
+	// 	super.finalize();
+	// 	cleanUp();
+	// }
+	//
+	// protected void cleanUp() {
+	// 	getEntityManager().flush();
+	// 	// getEntityManager().close();
+	// }
 }
