@@ -2,43 +2,49 @@ package com.example.cms.database.dao;
 
 import com.example.cms.database.entity.Post;
 import com.example.cms.database.entity.Tag;
-import com.example.cms.database.entity.User;
+import com.example.cms.util.HibernateUtil;
 import com.example.cms.util.SetUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class PostDAO extends AbstractDAO<Post> {
-	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogpu");
-	private final EntityManager em = emf.createEntityManager();
-
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
 
 	public PostDAO() {
 		super(Post.class);
 	}
 
 	@Override
+	@Transactional
 	public List<Post> findAll() {
 		List<Post> posts = super.findAll();
 		posts.sort(Comparator.comparing(Post::getDatePosted).reversed());
 		return posts;
 	}
 
+	@Transactional
 	public Post findBySlug(final String slug) {
-		final String query = "select bp from Post bp where bp.slug = :slug";
-		try {
-			return getEntityManager().createQuery(query, Post.class)
+		final String QUERY = "select bp from Post bp where bp.slug = :slug";
+		Post post = null;
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			post = session.createQuery(QUERY, Post.class)
 					.setParameter("slug", slug)
 					.getSingleResult();
-		} catch (NoResultException e) {
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		}
+		return post;
 	}
 
 	public List<Post> findByTagName(final String tagName) {
@@ -86,27 +92,48 @@ public class PostDAO extends AbstractDAO<Post> {
 		return posts.stream().limit(limit).filter(p -> SetUtil.inter(p.getTags(), tags).size() > 0).collect(Collectors.toList());
 	}
 
+	@Transactional
 	public List<Post> findAllPublished() {
-		final String query = "select bp from Post bp where bp.published = :published order by bp.datePosted desc";
-		try {
-			return getEntityManager().createQuery(query, Post.class)
+		final String QUERY = "select bp from Post bp where bp.published = :published order by bp.datePosted desc";
+
+		List<Post> posts = new ArrayList<>();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			posts = session.createQuery(QUERY, Post.class)
 					.setParameter("published", true)
 					.getResultList();
-		} catch (NoResultException e) {
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		}
+		return posts;
 	}
+
+	@Transactional
 	public List<Post> findAllPublished(int limit) {
-		final String query = "select bp from Post bp where bp.published = :published order by bp.datePosted desc";
-		try {
-			return getEntityManager().createQuery(query, Post.class)
+		final String QUERY = "select bp from Post bp where bp.published = :published order by bp.datePosted desc";
+
+		List<Post> posts = new ArrayList<>();
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			posts = session.createQuery(QUERY, Post.class)
 					.setParameter("published", true)
 					.setMaxResults(limit)
 					.getResultList();
-		} catch (NoResultException e) {
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		}
+		return posts;
 	}
 }

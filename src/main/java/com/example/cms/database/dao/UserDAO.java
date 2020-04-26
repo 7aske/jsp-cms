@@ -2,38 +2,45 @@ package com.example.cms.database.dao;
 
 import com.example.cms.database.entity.Role;
 import com.example.cms.database.entity.User;
+import com.example.cms.util.HibernateUtil;
 import com.example.cms.util.SetUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserDAO extends AbstractDAO<User> {
-	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogpu");
-	private final EntityManager em = emf.createEntityManager();
-
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
 
 	public UserDAO() {
 		super(User.class);
 	}
 
+	@Transactional
 	public User findByUsername(final String username) {
-		final String query = "select u from User u where u.username = :username";
-		try {
-			return getEntityManager().createQuery(query, User.class)
+		final String QUERY = "select u from User u where u.username = :username";
+		User user = null;
+		Transaction transaction = null;
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			user = session.createQuery(QUERY, User.class)
 					.setParameter("username", username)
 					.getSingleResult();
-		} catch (NoResultException e) {
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			if (transaction != null){
+				transaction.rollback();
+			}
 		}
+		return user;
 	}
+
 
 	public List<User> findByRole(final Role role) {
 		final Set<Role> roles = new HashSet<>();
@@ -53,6 +60,6 @@ public class UserDAO extends AbstractDAO<User> {
 	public List<User> findByRoleList(final Set<Role> roles) {
 		// Screw you JPA
 		List<User> users = findAll();
-		return users.stream().filter(u-> SetUtil.inter(u.getRoles(), roles).size() > 0).collect(Collectors.toList());
+		return users.stream().filter(u -> SetUtil.inter(u.getRoles(), roles).size() > 0).collect(Collectors.toList());
 	}
 }

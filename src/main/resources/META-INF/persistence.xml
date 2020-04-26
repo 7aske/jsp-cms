@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-    <persistence-unit name="blogpu">
+    <persistence-unit name="blog">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="connection.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
-            <property name="connection.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="connection.jdbc.user" value="blog"/>
-            <property name="connection.jdbc.password" value="blog"/>
-            <property name="connection.jdbc.initialSize" value="10" />
-            <property name="connection.jdbc.maxActive" value="15" />
-            <property name="connection.jdbc.maxWait" value="5000" />
-            <property name="connection.jdbc.maxIdle" value="1" />
+<!--            <property name="connection.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>-->
+<!--            <property name="connection.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--            <property name="connection.jdbc.user" value="blog"/>-->
+<!--            <property name="connection.jdbc.password" value="blog"/>-->
+<!--            <property name="connection.jdbc.initialSize" value="10" />-->
+<!--            <property name="connection.jdbc.maxActive" value="15" />-->
+<!--            <property name="connection.jdbc.maxWait" value="5000" />-->
+<!--            <property name="connection.jdbc.maxIdle" value="1" />-->
 
             <property name="javax.persistence.jdbc.initialSize" value="10" />
             <property name="javax.persistence.jdbc.maxActive" value="15" />
@@ -22,7 +22,7 @@
             <property name="hibernate.connection.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.connection.user" value="blog"/>
-            <property name="hibernate.connection.password" value="blog"/>
+            <property name="hibernate.connection.password" value="Bazepodataka"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
