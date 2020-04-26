@@ -65,14 +65,18 @@ public class CommentServlet extends HttpServlet {
 			comment.setCommenterName(commenterName);
 			comment.setCommenterEmail(commenterEmail);
 			comment.setBody(body);
-			comment.setDateCommented(dateCommented);
+			comment.setDateCommented(dateCommented.plusDays(1));
 
 			commentDAO.create(comment);
 		}
 
 		if (post != null) {
-			request.setAttribute("errors", Iterables.toArray(errors, String.class));
-			request.getRequestDispatcher("/post/" + post.getSlug()).forward(request, response);
+			if (errors.size()==0){
+				response.sendRedirect(request.getContextPath() + "/post/" + post.getSlug());
+			} else {
+				request.setAttribute("errors", Iterables.toArray(errors, String.class));
+				request.getRequestDispatcher("/post/" + post.getSlug()).forward(request, response);
+			}
 		} else {
 			response.sendRedirect(request.getContextPath());
 		}

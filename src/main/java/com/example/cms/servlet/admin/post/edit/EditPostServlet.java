@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +105,7 @@ public class EditPostServlet extends HttpServlet {
 			post.setBody(body);
 			post.setExcerpt(excerpt);
 			post.setPublished(published);
-			post.setDatePosted(LocalDate.now());
+			post.setDatePosted(LocalDate.now().plusDays(1));
 			post.setTags(tagList);
 			post.setIdUser(user);
 			postDAO.create(post);
@@ -117,6 +118,7 @@ public class EditPostServlet extends HttpServlet {
 				post.setSlug(UrlUtil.encodeValue(slug));
 				post.setBody(body);
 				post.setExcerpt(excerpt);
+				post.setDatePosted(post.getDatePosted().plusDays(1));
 				post.setPublished(published);
 				post.setTags(tagList);
 				postDAO.update(post);
