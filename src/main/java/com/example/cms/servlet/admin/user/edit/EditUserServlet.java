@@ -25,9 +25,9 @@ public class EditUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idUserString = UrlUtil.getUrlBase(request.getRequestURL().toString());
-		int idUser;
+		long idUser;
 		try {
-			idUser = Integer.parseInt(idUserString);
+			idUser = Long.parseLong(idUserString);
 		} catch (NumberFormatException ignored) {
 			response.sendRedirect(request.getContextPath() + "/admin/user/edit.jsp");
 			return;

@@ -13,7 +13,7 @@
 
 <%
     String idPost = request.getParameter("idPost");
-    Integer idUser = (Integer) session.getAttribute("idUser");
+    Long idUser = (Long) session.getAttribute("idUser");
     String title = request.getParameter("title");
     String slug = request.getParameter("slug");
     String excerpt = request.getParameter("excerpt");
@@ -41,19 +41,19 @@
     <input id="id_user" name="id_user" type="text" hidden value="<%=idUser%>">
     <div class="row">
         <div class="input-field col s12">
-            <input id="title" name="title" type="text" data-length="128" value="<%=title%>">
+            <input id="title" name="title" type="text" data-length="128" value="<%=title%>" required>
             <label for="title"><fmt:message key="admin.post.edit.form.title.label"/></label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input id="slug" name="slug" type="text" data-length="128" value="<%=slug%>">
+            <input id="slug" name="slug" type="text" data-length="128" value="<%=slug%>" required>
             <label for="slug"><fmt:message key="admin.post.edit.form.slug.label"/></label>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <label for="tags"><fmt:message key="admin.post.edit.form.title.label"/></label>
+            <label for="tags"><fmt:message key="admin.post.edit.form.tags.label"/></label>
             <input id="tags" name="tags" type="hidden">
             <div class="chips chips-autocomplete">
             </div>
@@ -61,7 +61,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <textarea id="excerpt" class="materialize-textarea" name="excerpt"><%=excerpt%></textarea>
+            <textarea id="excerpt" class="materialize-textarea" name="excerpt" required><%=excerpt%></textarea>
             <label for="excerpt"><fmt:message key="admin.post.edit.form.excerpt.label"/></label>
         </div>
     </div>

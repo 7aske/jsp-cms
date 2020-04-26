@@ -12,7 +12,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id_user")
-	private Integer idUser;
+	private Long idUser;
 
 	@Column(name = "email")
 	private String email;
@@ -36,11 +36,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public Integer getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(Integer idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 

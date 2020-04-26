@@ -46,6 +46,7 @@
         </div>
     </div>
 </nav>
+<jsp:include page="../../fragment/errorList.jsp"/>
 <div class="container">
     <jsp:include page="../../fragment/postEditForm.jsp">
         <jsp:param name="idPost" value="${post.idPost}"/>

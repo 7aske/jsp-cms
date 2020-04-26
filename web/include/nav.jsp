@@ -9,7 +9,7 @@
 
 <%
     String username = (String) session.getAttribute("username");
-    Integer idUser = (Integer) session.getAttribute("idUser");
+    Long idUser = (Long) session.getAttribute("idUser");
     Iterable<Role> roles = session.getAttribute("roles") != null ? ((Iterable<Role>) session.getAttribute("roles")) : new HashSet<Role>();
     boolean loggedIn = username != null && idUser != null;
 %>
