@@ -26,6 +26,7 @@ public class Comment implements Serializable {
 	private String commenterName;
 
 	@Column(name = "date_commented")
+	@Temporal(TemporalType.DATE)
 	private LocalDate dateCommented;
 
 	public Comment() {

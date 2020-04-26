@@ -3,6 +3,8 @@
 <%@ page import="com.example.cms.config.Config" %>
 <%@ page import="com.example.cms.database.entity.Comment" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="com.example.cms.database.entity.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -29,8 +31,9 @@
 %>
 <%
     String username = (String) session.getAttribute("username");
-    String confUsername = Config.getProperties().getProperty("blog-username");
-    boolean loggedIn = username != null && username.equals(confUsername);
+    Long idUser = (Long) session.getAttribute("idUser");
+    Collection<Role> roles = (Collection<Role>) session.getAttribute("roles");
+    boolean loggedIn = username != null && idUser != null && !roles.isEmpty();
 %>
 <!DOCTYPE html>
 <html lang="<%=session.getAttribute("lang")%>">

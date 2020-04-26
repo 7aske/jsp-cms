@@ -30,7 +30,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            Made by <a class="orange-text text-lighten-3" href="<%=Config.getProperties().getProperty("author-page")%>"><%=Config.getProperties().getProperty("author")%></a>
+            Made by <a class="orange-text text-lighten-3" href="https://github.com/7aske">Nikola Tasic</a>
         </div>
     </div>
 </footer>

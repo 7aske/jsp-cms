@@ -27,6 +27,7 @@ public class Post implements Serializable {
 	private String slug;
 
 	@Column(name = "date_posted")
+	@Temporal(TemporalType.DATE)
 	private LocalDate datePosted;
 
 	@Column(name = "published")

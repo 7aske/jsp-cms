@@ -72,7 +72,7 @@ public class PostDAO extends AbstractDAO<Post> {
 	}
 
 	public List<Post> findAllPublished() {
-		final String query = "select bp from Post bp where bp.published = :published order by datePosted desc";
+		final String query = "select bp from Post bp where bp.published = :published order by bp.datePosted desc";
 		try {
 			return getEntityManager().createQuery(query, Post.class)
 					.setParameter("published", true)
