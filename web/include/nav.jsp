@@ -32,9 +32,9 @@
             </li>
             <li><a href="<%=request.getContextPath()%>/admin/logout"><fmt:message key="nav.logout"/></a></li>
             <% } %>
+            <jsp:include page="../fragment/languageSwitcher.jsp"/>
         </ul>
         <ul id="nav-mobile" class="sidenav">
-            <li><a href="${pageContext.request.contextPath}"><fmt:message key="nav.home"/></a></li>
             <%if (loggedIn) { %>
             <li><a href="<%=request.getContextPath()%>/admin/admin.jsp"><fmt:message key="nav.posts"/></a></li>
             <% if (Util.hasRole(roles, RoleNames.ADMIN)) { %>
@@ -43,6 +43,8 @@
             <li><a href="<%=request.getContextPath()%>/admin/tag/tags.jsp"><fmt:message key="nav.tags"/></a></li>
             <li><a href="<%=request.getContextPath()%>/admin/logout"><fmt:message key="nav.logout"/></a></li>
             <% } %>
+            <li><a href="${pageContext.request.contextPath}"><fmt:message key="nav.home"/></a></li>
+            <jsp:include page="../fragment/languageSwitcher.jsp"/>
         </ul>
     </div>
 </nav>
