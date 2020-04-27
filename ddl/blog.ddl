@@ -26,8 +26,8 @@ create table comment
    id_comment           int not null auto_increment,
    id_post              int not null,
    body                 text not null,
-   commenter_name       varchar(32) not null,
-   commenter_email      varchar(32) not null,
+   commenter_name       varchar(64) not null,
+   commenter_email      varchar(64) not null,
    date_commented       datetime not null,
    primary key (id_comment)
 );
@@ -39,12 +39,12 @@ create table post
 (
    id_post              int not null auto_increment,
    id_user              int,
-   title                varchar(64) not null,
-   excerpt              varchar(512) not null,
+   title                varchar(128) not null,
+   excerpt              text not null,
    body                 text not null,
    date_posted          date not null,
    published            bool default false,
-   slug                 varchar(32) not null,
+   slug                 varchar(128) not null,
    primary key (id_post)
 );
 
@@ -64,7 +64,7 @@ create table post_tag
 create table role
 (
    id_role              int not null auto_increment,
-   role_name            varchar(32) not null,
+   role_name            varchar(64) not null,
    primary key (id_role)
 );
 
@@ -74,7 +74,7 @@ create table role
 create table tag
 (
    id_tag               int not null auto_increment,
-   tag_name             varchar(32) not null,
+   tag_name             varchar(64) not null,
    primary key (id_tag)
 );
 
@@ -84,9 +84,9 @@ create table tag
 create table user
 (
    id_user              int not null auto_increment,
-   email                varchar(32) not null,
-   username             varchar(32) not null,
-   display_name         varchar(32) not null,
+   email                varchar(64) not null,
+   username             varchar(64) not null,
+   display_name         varchar(64) not null,
    password             varchar(256) not null,
    active               bool default false,
    primary key (id_user)
