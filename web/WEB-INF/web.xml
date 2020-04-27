@@ -15,6 +15,12 @@
             <description>No roles - no direct access</description>
         </auth-constraint>
     </security-constraint>
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
     <resource-ref>
         <res-ref-name>jdbc/mysql</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
