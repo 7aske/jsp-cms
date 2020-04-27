@@ -47,7 +47,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input id="slug" name="slug" type="text" data-length="128" value="<%=slug%>" required>
+            <input id="slug" name="slug" type="text" data-length="32" value="<%=slug%>" required>
             <label for="slug"><fmt:message key="admin.post.edit.form.slug.label"/></label>
         </div>
     </div>
