@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "post")
 public class Post implements Serializable {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_post")
 	private Long idPost;
 

@@ -63,6 +63,34 @@ public class EditUserServlet extends HttpServlet {
 
 		User user = userDAO.findByUsername(username);
 
+		if (username == null || username.equals("")) {
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.username"));
+		}
+
+		if (email == null || email.equals("")) {
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.email"));
+		}
+
+		if (password == null || password.equals("")) {
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.password"));
+		}
+
+		if (displayName == null || displayName.equals("")) {
+			errors.add(Config.getBundle(locale).getString("errors.user.edit.display_name"));
+		}
+
+		if (errors.size() != 0) {
+			request.setAttribute("errors", Iterables.toArray(errors, String.class));
+			if (request.getParameter("setup") != null && request.getParameter("setup").equals("on")) {
+				request.getRequestDispatcher("/setup.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("/admin/user/edit.jsp").forward(request, response);
+			}
+			return;
+		}
+
+		assert password != null;
+
 		//FIXME: bad bad
 		if (request.getParameter("roles") != null) {
 			roles.add(roleDAO.findByName(request.getParameter("roles")));

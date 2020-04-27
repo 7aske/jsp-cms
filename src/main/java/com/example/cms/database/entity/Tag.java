@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "tag")
 public class Tag implements Serializable {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_tag")
 	private Long idTag;
 

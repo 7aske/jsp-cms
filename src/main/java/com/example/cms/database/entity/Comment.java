@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "comment")
 public class Comment implements Serializable {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_comment")
 	private Long idComment;
 
